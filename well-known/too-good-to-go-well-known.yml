@@ -1,0 +1,131 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  Live GET probes of /.well-known/* on every Too Good To Go host reachable from the
+  public internet (marketing site, mobile/partner API backends, partner business site).
+name: Too Good To Go well-known documents
+description: >-
+  Too Good To Go serves an RFC 9116 security.txt from its API backends and its marketing
+  host. No OpenID/OAuth discovery document, api-catalog, ai-plugin manifest or A2A agent
+  card is served on any host. www.toogoodtogo.com sits behind a Vercel Security Checkpoint
+  that answers 429 to non-browser clients and 302s every unknown /.well-known/* path to a
+  locale route, so a 302/429 there is an edge policy, not a served document.
+hosts:
+- host: www.toogoodtogo.com
+  note: >-
+    Marketing site (Astro on Vercel). security.txt is served as a real text/plain document;
+    every other /.well-known/* path 302s to a locale route (SPA/locale catch-all, not a document).
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: too-good-to-go-security.txt
+  - path: /.well-known/openid-configuration
+    status: 302
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 302
+    file: null
+  - path: /.well-known/api-catalog
+    status: 302
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 302
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 302
+    file: null
+  - path: /.well-known/agent.json
+    status: 302
+    file: null
+- host: api.toogoodtogo.com
+  note: >-
+    Live API backend. Answers RFC 9457 application/problem+json for every unmatched path,
+    so the 404s below are genuine document absences rather than an HTML catch-all.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: too-good-to-go-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: apptoogoodtogo.com
+  note: >-
+    The backend the consumer mobile app and the MyStore partner portal call. Same RFC 9457
+    error surface as api.toogoodtogo.com; serves the same security.txt.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: too-good-to-go-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: business.toogoodtogo.com
+  note: >-
+    Nuxt SPA for the partner/business marketing site. Every /.well-known/* path 302s to a
+    locale route — an SPA catch-all, not a served document. No security.txt of its own.
+  documents:
+  - path: /.well-known/security.txt
+    status: 302
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 302
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 302
+    file: null
+  - path: /.well-known/api-catalog
+    status: 302
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 302
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 302
+    file: null
+  - path: /.well-known/agent.json
+    status: 302
+    file: null
+summary:
+  hosts_probed: 4
+  paths_probed: 28
+  documents_served: 3
+  distinct_documents: 1
+  security_txt: true
+  api_catalog: false
+  openid_configuration: false
+  oauth_authorization_server: false
+  ai_plugin: false
+  agent_card: false

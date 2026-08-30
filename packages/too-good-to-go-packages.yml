@@ -1,0 +1,90 @@
+generated: '2026-08-30'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, GitHub org/user API, and Too Good To Go's own developer and
+  business surfaces
+name: Too Good To Go client packages
+description: >-
+  Too Good To Go publishes NO first-party SDK, client library or CLI in any package registry.
+  Its GitHub organization (github.com/TooGoodToGo, created 2017-05-16) exists but has zero
+  public repositories. Every package below is a third-party, reverse-engineered client for
+  the undocumented mobile-app backend; none is authorized, supported or acknowledged by the
+  company. They are recorded as evidence of unmet integration demand, and every one is marked
+  official:false. No `SDKs` pointer is emitted in apis.yml, because emitting one would credit
+  Too Good To Go with client libraries it does not ship.
+official_sdk_count: 0
+packages: []
+third_party_packages:
+- name: tgtg
+  registry: pypi
+  official: false
+  language: Python
+  url: https://pypi.org/project/tgtg/
+  repository: https://github.com/ahivert/tgtg-python
+  version: 0.19.0
+  published: '2026-05-27'
+  note: >-
+    "Unofficial client for TooGoodToGo API". The most actively maintained of the community
+    clients — the only one with a 2026 release.
+- name: toogoodtogo-watcher
+  registry: npm
+  official: false
+  language: JavaScript
+  url: https://www.npmjs.com/package/toogoodtogo-watcher
+  repository: https://github.com/marklagendijk/node-toogoodtogo-watcher
+  version: 4.8.3
+  published: '2025-08-18'
+  note: Notifier that polls the undocumented backend for Surprise Bag availability.
+- name: tgtg-client
+  registry: npm
+  official: false
+  language: JavaScript
+  url: https://www.npmjs.com/package/tgtg-client
+  repository: https://github.com/bengeois/tgtg-client
+  version: 1.0.0
+  published: '2023-09-14'
+  note: Unmaintained since 2023.
+- name: tgtg-ts
+  registry: npm
+  official: false
+  language: TypeScript
+  url: https://www.npmjs.com/package/tgtg-ts
+  repository: null
+  version: 0.1.0
+  published: '2023-06-30'
+  note: Unmaintained since 2023; no repository declared in the registry metadata.
+- name: tgtg-js
+  registry: npm
+  official: false
+  language: JavaScript
+  url: https://www.npmjs.com/package/tgtg-js
+  repository: https://github.com/Mirra-Mathias/TGTG-JS
+  version: 1.0.0
+  published: '2023-04-10'
+  note: Unmaintained since 2023.
+- name: toogoodtogogo
+  registry: pkg.go.dev
+  official: false
+  language: Go
+  url: https://pkg.go.dev/github.com/simonmartyr/toogoodtogogo
+  repository: https://github.com/simonmartyr/toogoodtogogo
+  version: null
+  published: null
+  note: >-
+    version/published are null because the module was not resolved against proxy.golang.org
+    in this pass — checked, nothing recorded, not a guess.
+registries_searched:
+- npm
+- pypi
+- pkg.go.dev
+- github (org + user API)
+evidence:
+- url: https://api.github.com/users/TooGoodToGo
+  status: 200
+  finding: 'type Organization, public_repos 0, no name, no blog — an empty placeholder org.'
+- url: https://registry.npmjs.org/-/v1/search?text=toogoodtogo
+  status: 200
+  finding: 4 packages, all third-party.
+- url: https://pypi.org/pypi/tgtg/json
+  status: 200
+  finding: 0.19.0 released 2026-05-27, third-party.

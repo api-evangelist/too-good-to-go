@@ -1,0 +1,57 @@
+generated: '2026-08-30'
+method: searched
+source: https://status.toogoodtogo.com/
+name: Too Good To Go lifecycle and operational posture
+description: >-
+  Too Good To Go publishes an operational status page but no public API versioning policy,
+  deprecation policy, SLA or changelog, because it publishes no public API. The version
+  scheme recorded below is the one observable in the URL structure of its own backends, not
+  a documented commitment.
+status_page:
+  present: true
+  url: https://status.toogoodtogo.com/
+  platform: Statuspal
+  http_status: 200
+  components:
+  - name: Website
+    regions: [Europe, North America, Australia]
+  - name: MyStore
+    regions: [Europe, North America, Australia]
+  - name: Mobile App
+    regions: [Europe, North America, Australia]
+  - name: Platform
+    regions: []
+  api_component: false
+  note: >-
+    No component covers an API surface directly; the page tracks the consumer app, the
+    marketing site, the MyStore partner portal and Too Good To Go Platform.
+versioning:
+  policy_published: false
+  scheme: path-segment
+  observed:
+  - 'https://apptoogoodtogo.com/api/item/v8/ — resource-level major version in the path'
+  - 'https://apptoogoodtogo.com/api/auth/v5/authByEmail — independent version per resource family'
+  note: >-
+    Versions are per-resource-family and advance independently. This is observed from live
+    probes of the undocumented backend, NOT from a published policy; Too Good To Go states
+    no compatibility or version-support commitment anywhere public.
+deprecation:
+  policy_published: false
+  sunset_header: unknown
+  deprecation_header: unknown
+  rfc8594: unknown
+  note: No deprecation or sunset policy is published; no public contract exists to deprecate.
+sla:
+  published: false
+  note: No public uptime or support SLA. Trust-center material is gated behind a request flow.
+changelog:
+  published: false
+  note: >-
+    No dated public changelog for any API or for Too Good To Go Platform was found. App
+    release notes live in the Apple App Store and Google Play listings only.
+evidence:
+- url: https://status.toogoodtogo.com/
+  http_status: 200
+- url: https://developers.toogoodtogo.com/
+  http_status: 401
+  note: Developer subdomain answers 401 with a "Login with JumpCloud" SSO interstitial.

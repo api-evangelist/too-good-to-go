@@ -1,0 +1,86 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  Live unauthenticated probes of https://api.toogoodtogo.com/ and
+  https://apptoogoodtogo.com/ on 2026-08-30
+name: Too Good To Go observed error envelopes
+description: >-
+  Too Good To Go publishes no error reference and no OpenAPI, so nothing here is derived from
+  a contract. These are the error envelopes ACTUALLY RETURNED by its public-facing backends
+  to unauthenticated probes. Two distinct envelopes coexist on the same hosts: an RFC 9457
+  problem+json body from the framework's unmatched-route handler, and a bespoke
+  errors[]-array body from the application layer. Only observed shapes and observed codes are
+  recorded; no code list is invented.
+format: mixed
+envelopes:
+- id: rfc9457-transport
+  format: rfc9457
+  content_type: application/problem+json
+  layer: framework / unmatched route
+  members:
+  - detail
+  - instance
+  - status
+  - title
+  example: >-
+    {"detail":"No static resource openapi.json.","instance":"/openapi.json","status":404,"title":"Not Found"}
+  observed_on:
+  - https://api.toogoodtogo.com/openapi.json
+  - https://apptoogoodtogo.com/api/
+  note: >-
+    Emitted by the Spring-style default handler. Carries no `type` URI, so it is RFC 9457
+    shaped but uses the implicit "about:blank" problem type — there is no dereferenceable
+    problem-type registry.
+- id: application-errors-array
+  format: bespoke
+  content_type: application/json
+  layer: application / validation
+  members:
+  - errors[].code
+  - errors[].message
+  example: '{"errors":[{"code":"VALIDATION_ERROR","message":"origin must not be null"}]}'
+  observed_on:
+  - https://apptoogoodtogo.com/api/item/v8/
+  note: >-
+    Not RFC 9457. An agent parsing this surface must handle both envelopes, and cannot
+    discover which endpoints emit which without trying them.
+problem_types:
+- code: VALIDATION_ERROR
+  http_status: 400
+  envelope: application-errors-array
+  title: Request validation failed
+  observed_message: origin must not be null
+  observed_on: 'POST https://apptoogoodtogo.com/api/item/v8/'
+  remediation: >-
+    Supply the required request members. The field name is returned in `message` as free
+    text; there is no machine-readable pointer to the offending field.
+- code: null
+  http_status: 404
+  envelope: rfc9457-transport
+  title: Not Found
+  observed_message: No static resource <path>.
+  observed_on: 'GET https://api.toogoodtogo.com/<any unmatched path>'
+  remediation: No public route list exists; the path is not part of the app-facing surface.
+- code: null
+  http_status: 403
+  envelope: html
+  title: Bot challenge
+  observed_message: 'DataDome interstitial: "Please enable JS and disable any ad blocker"'
+  observed_on: 'POST https://apptoogoodtogo.com/api/auth/v5/authByEmail'
+  remediation: >-
+    Authentication endpoints are protected by a DataDome bot-management edge. Non-browser
+    clients receive an HTML challenge, not JSON — a hard blocker for any programmatic client.
+coverage:
+  documented_by_provider: false
+  error_reference_url: null
+  codes_observed: 1
+  note: >-
+    One application error code was observable without credentials. The real code space is
+    unknown and undocumented; do not treat this list as complete.
+evidence:
+- url: https://api.toogoodtogo.com/openapi.json
+  status: 404
+- url: https://apptoogoodtogo.com/api/item/v8/
+  status: 400
+- url: https://apptoogoodtogo.com/api/auth/v5/authByEmail
+  status: 403

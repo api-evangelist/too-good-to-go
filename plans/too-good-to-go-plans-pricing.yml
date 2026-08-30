@@ -1,0 +1,41 @@
+generated: '2026-08-30'
+method: searched
+source: https://business.toogoodtogo.com/
+name: Too Good To Go plans and pricing
+description: >-
+  Too Good To Go publishes no API plans, because it publishes no API. Its commercial surfaces
+  are a consumer marketplace (free to install; the consumer pays per Surprise Bag) and a
+  partner/business motion for stores and for Too Good To Go Platform, both of which route
+  through a sign-up or contact form rather than a published rate card. No public pricing page
+  with tiers, quotas or overage was found on any Too Good To Go host.
+plan_count: 0
+pricing_url: null
+plans: []
+commercial_model:
+- surface: Consumer marketplace app
+  model: per-transaction
+  published_rate: false
+  note: >-
+    Consumers pay per Surprise Bag at a discount set by the partner. Prices vary per listing
+    and per market; no rate card is published.
+- surface: Partner store listing
+  model: commission / fee per sale
+  published_rate: false
+  note: >-
+    Partner onboarding runs through the business site sign-up flow; the commission is not
+    published publicly.
+- surface: Too Good To Go Platform (grocery retail SaaS)
+  model: contact-sales
+  published_rate: false
+  note: >-
+    Marketed as modular retail software with plug-and-play implementation; every path to
+    price is a demo-request form.
+evidence:
+- url: https://business.toogoodtogo.com/en-gb
+  status: 200
+  finding: Business landing page routes to a sign-up / demo request; no pricing tiers rendered.
+- url: https://www.toogoodtogo.com/en-us
+  status: 429
+  finding: >-
+    Marketing host behind a Vercel Security Checkpoint; consumer pricing is per-listing in the
+    app regardless.

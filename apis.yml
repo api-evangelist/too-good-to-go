@@ -1,17 +1,39 @@
 aid: too-good-to-go
 name: Too Good To Go
-description: 'Too Good To Go is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Too Good To Go is a Danish certified B Corporation, founded in Copenhagen in 2015, that
+  operates the world's largest marketplace for surplus food. Consumers use its mobile app to
+  buy discounted "Surprise Bags" of unsold food from bakeries, restaurants, supermarkets and
+  hotels near closing time, and partner businesses list that surplus through the MyStore
+  partner portal at store.toogoodtogo.com. Alongside the consumer marketplace the company
+  sells Too Good To Go Platform, a modular AI-assisted surplus-management product for grocery
+  retailers that tracks near-expiry inventory, sets automated markdowns, routes unsold stock
+  to charity and pushes the remainder onto the marketplace. It also runs the Look-Smell-Taste
+  date-label campaign and Too Good To Go Parcels. Too Good To Go publishes no public API,
+  developer portal, or machine-readable contract: its developer subdomain answers 401 behind
+  a JumpCloud SSO login, and the live backends at api.toogoodtogo.com and apptoogoodtogo.com
+  serve only the mobile app and the partner portal.
 url: https://raw.githubusercontent.com/api-evangelist/too-good-to-go/refs/heads/main/apis.yml
+image: https://store.toogoodtogo.com/apple-touch-icon.png
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-secondary-market-listing: https://www.hiive.com/securities/too-good-to-go-stock
+x-tier: profiled
+x-tier-reason: enrichment
 specificationVersion: '0.20'
 created: '2026-08-30'
 modified: '2026-08-30'
 tags:
 - Company
+- Food Waste
+- Surplus Food
+- Marketplace
+- Sustainability
+- Grocery Retail
+- Consumer App
+- Climate Tech
+- B Corporation
+- Denmark
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -20,4 +42,88 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://www.hiive.com/securities/too-good-to-go-stock
+  url: https://www.toogoodtogo.com/en-us
+  name: Too Good To Go
+- type: Login
+  url: https://store.toogoodtogo.com/
+  name: MyStore partner portal login
+- type: StatusPage
+  url: https://status.toogoodtogo.com/
+  name: Too Good To Go status page
+- type: TrustCenter
+  url: security/too-good-to-go-trust-center.yml
+  name: Trust center — SOC 2 Type 2, PCI DSS v4.0.1
+- type: Compliance
+  url: security/too-good-to-go-trust-center.yml
+  name: Published certifications (SOC 2 Type 2, PCI DSS v4.0.1)
+- type: Security
+  url: security/too-good-to-go-vulnerability-disclosure.yml
+  name: Security vulnerability disclosure
+- type: VulnerabilityDisclosure
+  url: security/too-good-to-go-vulnerability-disclosure.yml
+  name: Vulnerability disclosure profile
+- type: DomainSecurity
+  url: security/too-good-to-go-domain-security.yml
+  name: Domain security posture
+- type: TermsOfService
+  url: https://www.toogoodtogo.com/en-gb/terms-and-conditions-using-the-app
+  name: Terms and conditions for using the app
+- type: PrivacyPolicy
+  url: https://www.toogoodtogo.com/en-us/privacy-policy
+  name: Privacy policy
+- type: WellKnown
+  url: well-known/too-good-to-go-well-known.yml
+  name: Well-known document probe
+- type: SecurityTxt
+  url: well-known/too-good-to-go-security.txt
+  name: security.txt (RFC 9116)
+- type: Lifecycle
+  url: lifecycle/too-good-to-go-lifecycle.yml
+  name: Lifecycle and operational posture
+- type: Conformance
+  url: conformance/too-good-to-go-conformance.yml
+  name: Standards conformance
+- type: ErrorCatalog
+  url: errors/too-good-to-go-problem-types.yml
+  name: Observed error envelopes
+- type: Conventions
+  url: conventions/too-good-to-go-conventions.yml
+  name: API conventions and reversibility
+- type: Packages
+  url: packages/too-good-to-go-packages.yml
+  name: Client packages (no first-party SDK)
+- type: Plans
+  url: plans/too-good-to-go-plans-pricing.yml
+  name: Plans and pricing
+- type: RateLimits
+  url: rate-limits/too-good-to-go-rate-limits.yml
+  name: Rate limits
+- type: LLMsTxt
+  url: llms/too-good-to-go-llms.txt
+  name: llms.txt
+x-enrichment:
+  date: '2026-08-30'
+  status: minimal
+  artifacts_added: 14
+  pass: local-v1
+x-coverage:
+  state: gated
+  reason: partner-login
+  detail: >-
+    Too Good To Go runs a developer subdomain at developers.toogoodtogo.com, but it answers
+    401 with a "Login with JumpCloud" SSO interstitial, and its two live backends
+    (api.toogoodtogo.com and apptoogoodtogo.com) return RFC 9457 404s on all 13 OpenAPI,
+    Swagger and GraphQL discovery paths — the only machine surface is the private mobile-app
+    and MyStore partner backend, fronted by DataDome.
+  evidence:
+  - url: https://developers.toogoodtogo.com/
+    status: 401
+  - url: https://api.toogoodtogo.com/openapi.json
+    status: 404
+  - url: https://apptoogoodtogo.com/api/auth/v5/authByEmail
+    status: 403
+  - url: https://www.toogoodtogo.com/en-us
+    status: 429
+  - url: https://www.toogoodtogo.com/.well-known/security.txt
+    status: 200
+  checked: '2026-08-30'

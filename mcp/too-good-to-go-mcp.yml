@@ -1,0 +1,37 @@
+generated: '2026-08-30'
+method: searched
+source: >-
+  Search of Too Good To Go's own hosts, its (empty) GitHub organization, npm and PyPI for a
+  published MCP server, plus live /.well-known probes on 2026-08-30.
+name: Too Good To Go MCP server
+description: >-
+  No Too Good To Go MCP server exists — not hosted, not packaged, not third-party-official.
+  Nothing is derived here either: deriving a candidate tool list requires an OpenAPI to bind
+  tools to, and Too Good To Go publishes none. This file records a completed search that
+  found nothing. No MCPServer pointer is wired into apis.yml, because a pointer would assert
+  an agent surface the company does not serve.
+status: none
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+tools: []
+searched:
+- registry: npm
+  query: toogoodtogo
+  finding: 4 packages, all third-party HTTP clients; no MCP server.
+- registry: pypi
+  query: tgtg
+  finding: one third-party HTTP client (tgtg 0.19.0); no MCP server.
+- surface: github.com/TooGoodToGo
+  finding: organization exists, 0 public repositories.
+- surface: /.well-known/ai-plugin.json on 4 hosts
+  finding: 404 on both API hosts, 302 locale catch-all on both marketing hosts.
+evidence:
+- url: https://api.toogoodtogo.com/.well-known/ai-plugin.json
+  status: 404
+- url: https://api.github.com/users/TooGoodToGo
+  status: 200

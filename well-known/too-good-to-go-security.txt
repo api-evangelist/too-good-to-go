@@ -1,0 +1,3 @@
+# Too Good To Go
+# Please report any security vulnerabilities to us via the contact method(s) below:
+Contact: mailto:security@toogoodtogo.com

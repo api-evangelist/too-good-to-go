@@ -1,0 +1,48 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  Live probes of www.toogoodtogo.com, api.toogoodtogo.com and apptoogoodtogo.com on
+  2026-08-30; no published rate-limit documentation exists.
+name: Too Good To Go rate limits
+description: >-
+  Too Good To Go documents no rate limits, because it documents no API. What its edge does
+  instead is bot management: the marketing host answers 429 behind a Vercel Security
+  Checkpoint and the authentication endpoints answer 403 behind a DataDome interstitial. Both
+  are challenge responses, not quota responses — no RateLimit-* or X-RateLimit-* headers and
+  no Retry-After were returned on any probe. limit_count is 0 because zero limits are
+  published, which is the honest number.
+limit_count: 0
+documented: false
+docs_url: null
+limits: []
+response_headers:
+  ratelimit_draft: false
+  x_ratelimit: false
+  retry_after: false
+  observed: []
+  note: >-
+    No rate-limit signalling header of any family was observed on 28 well-known probes,
+    13 spec-path probes per API host, or the challenge responses themselves.
+exhaustion:
+  status_code: 429
+  body: HTML
+  note: >-
+    429 on www.toogoodtogo.com returns a "Vercel Security Checkpoint" HTML interstitial with
+    no machine-readable retry guidance. An agent receives no signal it can act on.
+bot_management:
+- host: www.toogoodtogo.com
+  vendor: Vercel Security Checkpoint
+  observed_status: 429
+  note: Every marketing page path returned 429 to a browser-User-Agent curl client.
+- host: apptoogoodtogo.com
+  vendor: DataDome
+  observed_status: 403
+  path: /api/auth/v5/authByEmail
+  note: HTML challenge returned in place of a JSON error.
+evidence:
+- url: https://www.toogoodtogo.com/en-us
+  status: 429
+- url: https://apptoogoodtogo.com/api/auth/v5/authByEmail
+  status: 403
+- url: https://apptoogoodtogo.com/api/item/v8/
+  status: 400

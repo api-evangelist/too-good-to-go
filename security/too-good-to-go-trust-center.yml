@@ -1,0 +1,42 @@
+generated: '2026-08-30'
+method: searched
+probe: true
+source: https://trust.toogoodtogo.com/
+url: https://trust.toogoodtogo.com/
+name: Too Good To Go Trust Center
+platform: SafeBase (toogoodtogo.portals.safebase.io)
+description: >-
+  Too Good To Go runs a hosted SafeBase trust center at trust.toogoodtogo.com covering
+  product security, data security, access control, infrastructure, endpoint security,
+  incident response, risk management, business continuity / disaster recovery, employee
+  training and continuous monitoring. Reports are listed as gated downloads (NDA/request
+  flow) rather than public PDFs; the certifications themselves are stated publicly.
+  The host answers 403 to plain HTTP clients (Cloudflare bot challenge) and renders for a
+  browser, so the 403 below is an edge policy, not an absent page.
+certifications:
+- name: SOC 2 Type 2
+  status: certified
+  evidence: https://trust.toogoodtogo.com/
+- name: PCI DSS v4.0.1
+  status: certified
+  evidence: https://trust.toogoodtogo.com/
+documents:
+- name: SOC 2 Report
+  access: gated
+- name: PCI DSS Report
+  access: gated
+- name: Pentest Report
+  access: gated
+auditor_named: Deloitte
+evidence:
+- source: https://trust.toogoodtogo.com/
+  http_status: 403
+  note: >-
+    403 to curl with a browser User-Agent (Cloudflare challenge); content read via a
+    rendering fetch on 2026-08-30, which returned the trust-center copy and the two
+    certification names above.
+  keywords:
+  - soc 2 type 2
+  - pci dss v4.0.1
+  - pentest report
+  - trust center

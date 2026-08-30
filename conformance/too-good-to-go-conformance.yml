@@ -1,0 +1,98 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  Live probes of api.toogoodtogo.com and apptoogoodtogo.com plus the published trust center
+  at https://trust.toogoodtogo.com/
+name: Too Good To Go standards conformance
+description: >-
+  Too Good To Go publishes no machine-readable contract, so most contract-level standards
+  cannot be assessed. Two things ARE observable: its live backends emit RFC 9457
+  problem+json error bodies, and its trust center names two security/compliance
+  certifications. Everything else below is recorded as not-conformant or unknown with the
+  reason, not asserted.
+conformance:
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: true
+  evidence: >-
+    GET https://api.toogoodtogo.com/openapi.json returned 404 with
+    content-type application/problem+json and body
+    {"detail":"No static resource openapi.json.","instance":"/openapi.json","status":404,"title":"Not Found"}.
+    The same shape is returned by apptoogoodtogo.com. Members detail/instance/status/title
+    are the RFC 9457 registered members.
+  note: >-
+    Conformance is observed on the framework-level 404 handler. The application-level error
+    surface uses a DIFFERENT, non-RFC envelope (see errors/too-good-to-go-problem-types.yml),
+    so this is partial conformance at the transport edge, not a published commitment.
+- id: soc2
+  name: SOC 2 Type 2
+  conforms: true
+  evidence: 'https://trust.toogoodtogo.com/ — listed as a held certification with a gated report.'
+- id: pci-dss
+  name: PCI DSS v4.0.1
+  conforms: true
+  evidence: 'https://trust.toogoodtogo.com/ — listed as a held certification with a gated report.'
+- id: gdpr
+  name: GDPR (EU 2016/679)
+  conforms: true
+  evidence: >-
+    EU-headquartered controller (Copenhagen, Denmark) operating a data-subject rights portal
+    at https://space.toogoodtogo.com/privacy (HTTP 200) and publishing a privacy policy.
+  note: Regime applicability, not a certification.
+- id: rfc9116
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: >-
+    https://www.toogoodtogo.com/.well-known/security.txt returns 200 with a Contact field but
+    NO Expires field, which RFC 9116 lists as REQUIRED. Served but non-conformant.
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: >-
+    /.well-known/oauth-authorization-server returns 404 on both API hosts and 302 on the
+    marketing hosts. No authorization-server metadata is published.
+- id: oidc
+  name: OpenID Connect Discovery
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on both API hosts.
+- id: openapi
+  name: OpenAPI
+  conforms: false
+  evidence: >-
+    13 spec paths probed on each of api.toogoodtogo.com and apptoogoodtogo.com
+    (/openapi.json, /openapi.yaml, /swagger.json, /v3/api-docs, /v3/api-docs/swagger-config,
+    /v2/api-docs, /swagger-ui.html, /swagger-ui/index.html, /api-docs, /actuator,
+    /actuator/health, /api/openapi.json, /graphql) — all 404 application/problem+json.
+- id: graphql
+  name: GraphQL
+  conforms: false
+  evidence: /graphql returns 404 application/problem+json on both API hosts.
+- id: json-api
+  name: JSON:API
+  conforms: false
+  evidence: Observed error and response envelopes do not use the JSON:API media type or document structure.
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json return 404 on both API hosts and
+    302 (locale catch-all) on both marketing hosts.
+domain_standards:
+  assessed: true
+  standards_found: []
+  note: >-
+    Food-surplus / food-donation marketplaces have no widely adopted machine-readable domain
+    standard analogous to FHIR or ISO 20022. GS1 identifiers (GTIN) and food-donation data
+    schemas would be the candidates for Too Good To Go Platform's retailer integrations, but
+    no contract is published in which such a signature could be observed. Recorded as
+    not-assessable rather than absent — this is a reward-only dimension and nothing is
+    invented to fill it.
+evidence:
+- url: https://api.toogoodtogo.com/openapi.json
+  status: 404
+- url: https://apptoogoodtogo.com/graphql
+  status: 404
+- url: https://trust.toogoodtogo.com/
+  status: 403
+- url: https://www.toogoodtogo.com/.well-known/security.txt
+  status: 200

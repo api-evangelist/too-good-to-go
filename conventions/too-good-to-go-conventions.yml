@@ -1,0 +1,88 @@
+generated: '2026-08-30'
+method: probed
+source: >-
+  Live probes of api.toogoodtogo.com and apptoogoodtogo.com, plus the MyStore partner portal
+  HTML at https://store.toogoodtogo.com/, on 2026-08-30. No provider documentation exists to
+  search.
+name: Too Good To Go API conventions
+description: >-
+  Too Good To Go publishes no API documentation, so almost every cross-cutting convention
+  below is `undocumented` rather than absent — the behaviour may well exist inside the
+  private app/partner backend, but nothing about it is stated publicly and none of it can be
+  relied on by an integrator. The three entries that are NOT unknown were observed directly
+  on live unauthenticated responses.
+auth:
+  style: undocumented
+  observed: >-
+    apptoogoodtogo.com/api/auth/v5/authByEmail exists as a route but returns a DataDome HTML
+    bot challenge to non-browser clients. No OAuth or OIDC discovery document is served.
+  docs: null
+versioning:
+  style: path-segment, per-resource-family
+  observed:
+  - /api/item/v8/
+  - /api/auth/v5/authByEmail
+  documented: false
+  note: >-
+    Major versions advance independently per resource family, so there is no single API
+    version an integrator can pin to.
+error_envelope:
+  documented: false
+  shapes: 2
+  detail: See errors/too-good-to-go-problem-types.yml
+  note: >-
+    An RFC 9457 problem+json body from the framework's unmatched-route handler and a bespoke
+    {"errors":[{"code","message"}]} body from the application layer coexist on the same host.
+idempotency:
+  supported: unknown
+  header: null
+  scope: null
+  retention: null
+  documented: false
+  note: >-
+    No idempotency key header, semantics or retention window is documented. Not asserted
+    either way — the private backend may implement it. No `Idempotency` pointer is emitted.
+pagination:
+  style: unknown
+  documented: false
+rate_limit_signalling:
+  present: false
+  detail: See rate-limits/too-good-to-go-rate-limits.yml
+  note: No RateLimit-* / X-RateLimit-* / Retry-After header observed on any probe.
+request_id_tracing:
+  present: unknown
+  documented: false
+field_expansion:
+  supported: unknown
+  documented: false
+metadata:
+  supported: unknown
+  documented: false
+dry_run_mode:
+  supported: unknown
+  documented: false
+  note: No sandbox, test mode or dry-run parameter is documented anywhere public.
+reversibility:
+  grade: none
+  state: undocumented
+  write_surface: private
+  reversal_operations: []
+  note: >-
+    Too Good To Go plainly HAS reversible write actions — a consumer can cancel a Surprise
+    Bag reservation in the app, and refunds are handled through support — but not one of them
+    is exposed as a documented operation, and no cancellation or refund WINDOW is stated on
+    any public Too Good To Go surface. Grade is `none` rather than `na`: this is not a
+    read-only API, it is a write API whose reversal semantics an agent cannot discover. No
+    window is asserted here, because inventing one is the single most expensive error this
+    artifact could contain.
+  evidence:
+  - url: https://developers.toogoodtogo.com/
+    status: 401
+    finding: Developer portal, where such a policy would live, is behind a JumpCloud SSO login.
+evidence:
+- url: https://apptoogoodtogo.com/api/item/v8/
+  status: 400
+- url: https://apptoogoodtogo.com/api/auth/v5/authByEmail
+  status: 403
+- url: https://store.toogoodtogo.com/
+  status: 200
