@@ -14,6 +14,19 @@ description: >-
   a JumpCloud SSO login, and the live backends at api.toogoodtogo.com and apptoogoodtogo.com
   serve only the mobile app and the partner portal.
 url: https://raw.githubusercontent.com/api-evangelist/too-good-to-go/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source:
+  - rate-limits
+  - security
+  generated: '2026-09-02'
+  method: derived
 image: https://store.toogoodtogo.com/apple-touch-icon.png
 x-type: company
 x-source: harvest:secondary-market
