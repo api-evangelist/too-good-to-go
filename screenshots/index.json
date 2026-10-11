@@ -1,0 +1,11 @@
+[
+  {
+    "repo": "too-good-to-go",
+    "captured_at": "2026-10-11T193313",
+    "source_url": "https://www.toogoodtogo.com/en-us",
+    "source_type": "Website",
+    "file": "too-good-to-go-2026-10-11T193313.png",
+    "bytes": 111931,
+    "capture": "playwright-local"
+  }
+]
